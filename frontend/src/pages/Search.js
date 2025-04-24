@@ -68,13 +68,13 @@ export const ratings = [
 export default function Search() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const sp = new URLSearchParams(search);
-  const category = sp.get('category') || 'all';
-  const query = sp.get('query') || 'all';
-  const price = sp.get('price') || 'all';
-  const rating = sp.get('rating') || 'all';
-  const order = sp.get('order') || 'newest';
-  const page = sp.get('page') || 1;
+  const queryParams = new URLSearchParams(search);
+  const category = decodeURIComponent(queryParams.get('category') || '');
+  const query = queryParams.get('query') || 'all';
+  const price = queryParams.get('price') || 'all';
+  const rating = queryParams.get('rating') || 'all';
+  const order = queryParams.get('order') || 'newest';
+  const page = queryParams.get('page') || 1;
 
   const [{ loading, error, products, pages, countProducts }, dispatch] =
     useReducer(reducer, {
@@ -92,7 +92,7 @@ export default function Search() {
       } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
-          payload: getError(error),
+          payload: getError(err),
         });
       }
     };
@@ -100,17 +100,29 @@ export default function Search() {
   }, [category, error, order, page, price, query, rating]);
 
   const [categories, setCategories] = useState([]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get(`/api/products/categories`);
-        setCategories(data);
+
+        if (!Array.isArray(data)) {
+          console.error('Invalid categories response:', data);
+          return;
+        }
+
+        const formattedCategories = data.map((c) => ({
+          name: typeof c === 'string' ? c : c._id, // ✅ Extract _id if present
+          categoryImage: c.categoryImage || '/images/default.png',
+        }));
+
+        setCategories(formattedCategories);
       } catch (err) {
         toast.error(getError(err));
       }
     };
     fetchCategories();
-  }, [dispatch]);
+  }, []);
 
   const getFilterUrl = (filter) => {
     const filterPage = filter.page || page;
@@ -132,7 +144,8 @@ export default function Search() {
         <Col md={3} className='search'>
           <div>
             <h3>Categories</h3>
-            <ul>
+
+            {categories.map((c) => (
               <li>
                 <Link
                   className={'all' === category ? 'text-bold' : ''}
@@ -141,18 +154,7 @@ export default function Search() {
                   Any
                 </Link>
               </li>
-
-              {categories.map((c) => (
-                <li key={c}>
-                  <Link
-                    className={c === category ? 'text-bold' : ''}
-                    to={getFilterUrl({ category: c })}
-                  >
-                    {c}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            ))}
           </div>
 
           <div>

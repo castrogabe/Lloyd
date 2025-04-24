@@ -640,3 +640,43 @@ UserEdit.js > updated with phone number, Added Charish Form.Group checkbox
 UserList.js > updated with ability to upload manually users phone number and notes, updated to save the notes until admin deletes, updated with all the Form.Groups
 
 index.css > added styling for user notes
+
+# 20th Commit-Redesign Header with larger Bee logo, HomePage with CategoriesCard, remove parallax
+
+BACKEND
+folder: models
+userModel.js > userNames not required for manual input
+productModel.js > update with sold for Sold Antiques page
+productRoutes.js > update for fetching Sold Antiques
+
+folder: routes
+emailRoutes.js > updated
+productRoutes.js > updated
+uploadRoutes.js > updated
+subscribeRoutes.js > added
+
+server.js > updated with subscribeRouts.js
+
+FRONTEND
+folder: components
+BottomHeader.js > now being used for links About Us, Collections, Contact, Sold Antiques
+CategoriesCard.js > added t display Categories with image on Home page, updated for mobile view
+Header.js > updated with AboutUs, Collections, Contact, SoldAntiques for mobile view
+Footer.js > updated with Sold Antiques Gallery, updated new hours
+BottomFooter > updated remove categories, add AboutUs Links
+Subscribe.js > added
+
+folder: pages
+Gallery.js > renamed to Collections.js
+CategoryProducts.js > added to show ProductCard when Category is clicked from Home.js
+Home.js > Comment out Parallax scrolling image, remove products and add Categories Images, move BottomHeader under the Jumbotron, Subscribe component
+ForgetPassword.js > update with Bee logo
+Signin.js > update with Bee logo
+Signup.js > update with Bee logo
+SoldAntiques.js > added
+UserList.js > updated
+
+index.css > updated colors
+Search.js > updated
+index.css > updated with categories for mobile view, Subscribe
+App.js > update with Sold Antiques, Collections

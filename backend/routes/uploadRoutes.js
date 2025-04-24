@@ -29,8 +29,7 @@ try {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 } catch (error) {
-  console.error('Failed to create upload directory:', error.message);
-  throw new Error('Upload directory setup failed');
+  console.error('Failed to create upload directory:', error);
 }
 
 function checkFileType(file, cb) {
@@ -39,9 +38,9 @@ function checkFileType(file, cb) {
   const mimetype = filetypes.test(file.mimetype);
 
   if (extname && mimetype) {
-    return cb(null, true);
+    cb(null, true);
   } else {
-    cb('Images only!');
+    cb(new Error('Images only! (JPG, JPEG, PNG, GIF allowed)'));
   }
 }
 
@@ -52,26 +51,23 @@ const upload = multer({
   },
 });
 
-uploadRouter.post('/', isAuth, isAdmin, upload.single('file'), (req, res) => {
-  if (!req.file) {
-    // Handle missing file error
-    return res.status(400).send({ message: 'No file uploaded.' });
+// Upload multiple images endpoint
+uploadRouter.post(
+  '/',
+  isAuth,
+  isAdmin,
+  upload.array('files', 10),
+  (req, res) => {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send({ message: 'No files uploaded.' });
+    }
+
+    // Map through uploaded files and return their paths
+    const fileUrls = req.files.map((file) => `/uploads/${file.filename}`);
+
+    res.send({ urls: fileUrls });
   }
-
-  // Log the uploaded file path for debugging
-  // console.log('Uploaded file path:', req.file.path);
-
-  // Construct the full URL
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${
-    req.file.filename
-  }`;
-
-  // Respond with both the relative path and full URL
-  res.send({
-    relativePath: `/uploads/${req.file.filename}`,
-    url: fileUrl,
-  });
-});
+);
 
 uploadRouter.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {

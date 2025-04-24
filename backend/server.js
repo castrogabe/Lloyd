@@ -18,6 +18,7 @@ import faqRouter from './routes/faqRoutes.js';
 import productMagContentRouter from './routes/productMagContentRoutes.js';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
+import subscribeRouter from './routes/subscribeRoutes.js';
 
 // Recreate __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -26,10 +27,17 @@ const __dirname = path.dirname(__filename);
 // Determine whether we're in production or development
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Use /var/data/uploads for Render (production) and ./uploads for local development
+// ✅ Define uploadDir first
 const uploadDir = isProduction
   ? '/var/data/uploads'
   : path.join(__dirname, 'uploads');
+
+// ✅ Then use it for category images
+const categoryUploadPath = path.join(uploadDir, 'categories');
+if (!fs.existsSync(categoryUploadPath)) {
+  fs.mkdirSync(categoryUploadPath, { recursive: true });
+  fs.chmodSync(categoryUploadPath, 0o777); // Grant full permissions
+}
 
 // Ensure the upload directory exists
 try {
@@ -54,15 +62,6 @@ app.get('/list-uploads', (req, res) => {
   });
 });
 
-// mongoose
-//   .connect(process.env.MONGODB_URI)
-//   .then(() => {
-//     console.log('connected to db');
-//   })
-//   .catch((err) => {
-//     console.log(err.message);
-//   });
-
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -81,7 +80,7 @@ app.get('/api/keys/paypal', (req, res) => {
   res.send(config.PAYPAL_CLIENT_ID || 'sb');
 });
 
-app.use('/uploads', express.static('/var/data/uploads')); // This should serve the uploads folder from the persistent disk
+app.use('/uploads', express.static(uploadDir));
 
 app.use(
   cors({
@@ -104,8 +103,10 @@ app.use('/api/about', aboutRouter);
 app.use('/api/design', designRouter);
 app.use('/api/faqs', faqRouter);
 app.use('/api/productmagcontent', productMagContentRouter);
+app.use('/api/subscribe', subscribeRouter);
 
 // This must come before your React app routing
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // React app serving

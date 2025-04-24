@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema(
     images: [{ type: String }],
     from: { type: String, required: true },
     category: { type: String, required: true },
+    categoryImage: { type: String, required: false },
     description: { type: String, required: true },
     price: { type: Number, required: true },
     countInStock: { type: Number, required: true },
@@ -33,6 +34,7 @@ const productSchema = new mongoose.Schema(
     period: { type: String, required: true },
     maker: { type: String, required: true },
     provenance: { type: Boolean, required: false },
+    sold: { type: Boolean, default: false },
   },
   {
     timestamps: true,

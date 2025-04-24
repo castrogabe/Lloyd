@@ -210,7 +210,24 @@ export default function ProductList() {
                     <td>{product.name}</td>
                     <td>{product.countInStock}</td>
                     <td>{product.price}</td>
-                    <td>{product.category}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <div>{product.category}</div>
+                      {product.categoryImage ? (
+                        <img
+                          src={product.categoryImage}
+                          alt={product.category}
+                          style={{
+                            width: '50px',
+                            height: '50px',
+                            objectFit: 'cover',
+                            borderRadius: '5px',
+                            marginTop: '5px',
+                          }}
+                        />
+                      ) : (
+                        product.category
+                      )}
+                    </td>
                     <td>{product.from}</td>
                     <td>{product.materials}</td>
                     <td>{product.period}</td>
