@@ -260,7 +260,6 @@ export default function UserList() {
                     type='text'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                   />
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='email'>
@@ -269,7 +268,6 @@ export default function UserList() {
                     type='email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                   />
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='phone'>

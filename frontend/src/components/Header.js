@@ -62,10 +62,25 @@ function Header() {
         <Navbar className='header py-3' expand='lg'>
           <ToastContainer position='bottom-center' limit={1} />
 
-          {/* Left-Aligned SearchBox (Desktop) */}
-          <div className='d-none d-lg-block mx-auto'>
-            <SearchBox showSearch={true} setShowSearch={() => {}} />
+          {/* Left-Aligned Search Icon (Desktop) */}
+          <div className='d-none d-lg-block search-icon-desktop'>
+            <button
+              className='icon-button'
+              onClick={() => setShowSearch(!showSearch)}
+            >
+              <i className={showSearch ? 'fas fa-times' : 'fas fa-search'}></i>
+            </button>
           </div>
+
+          {/* Show SearchBox when opened */}
+          {showSearch && (
+            <div className='search-box-container d-lg-block'>
+              <SearchBox
+                showSearch={showSearch}
+                setShowSearch={setShowSearch}
+              />
+            </div>
+          )}
 
           {/* Centered Logo */}
           <div className='w-100 text-center'>
@@ -87,13 +102,17 @@ function Header() {
               variant='outline-primary'
               onClick={() => setShowSearch(!showSearch)}
             >
-              <i className='fas fa-search'></i>
+              <i className={showSearch ? 'fas fa-times' : 'fas fa-search'}></i>
             </Button>
           </div>
 
-          {/* Expanded Mobile SearchBox */}
+          {/* Ensure search is only rendered once */}
           {showSearch && (
-            <div className='mobile-search-box'>
+            <div
+              className={`search-box-container ${
+                isMobile ? 'd-lg-none' : 'd-lg-block'
+              }`}
+            >
               <SearchBox
                 showSearch={showSearch}
                 setShowSearch={setShowSearch}
@@ -116,8 +135,8 @@ function Header() {
                   <LinkContainer to='/contact'>
                     <Nav.Link>Contact</Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to='/soldAntiques'>
-                    <Nav.Link>Sold Antiques</Nav.Link>
+                  <LinkContainer to='/soldGallery'>
+                    <Nav.Link>Sold Gallery</Nav.Link>
                   </LinkContainer>
                 </>
               ) : null}
@@ -202,12 +221,12 @@ function Header() {
                 </NavDropdown>
               )}
 
-              <Link to='/cart' className='nav-link'>
+              <Link to='/cart' className='nav-link cart'>
                 <i className='fa fa-shopping-cart'></i>
                 {cart.cartItems.length > 0 && (
-                  <Badge pill bg='danger'>
+                  <span className='cart-badge'>
                     {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                  </Badge>
+                  </span>
                 )}
               </Link>
             </Nav>

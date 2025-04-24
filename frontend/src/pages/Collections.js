@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import SkeletonGallery from '../components/skeletons/SkeletonGallery';
@@ -8,6 +8,7 @@ import SkeletonGallery from '../components/skeletons/SkeletonGallery';
 export default function Collections() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,43 +33,47 @@ export default function Collections() {
         <br />
         <h1 className='box'>Collections</h1>
         <Row>
-          <Col>
-            <div className='products'>
-              {/* react skeleton for product card 2 rows of 4 skeleton cards */}
-              {loading ? (
-                <>
-                  <Row>
-                    {[...Array(4).keys()].map((i) => (
-                      <Col key={i} sm={6} md={4} lg={3} className='mb-3'>
-                        <SkeletonGallery />
-                      </Col>
-                    ))}
-                  </Row>
-                  <Row>
-                    {[...Array(4).keys()].map((i) => (
-                      <Col key={i + 4} sm={6} md={4} lg={3} className='mb-3'>
-                        <SkeletonGallery />
-                      </Col>
-                    ))}
-                  </Row>
-                </>
-              ) : (
-                products.map((product) => (
-                  <div className='product' key={product.slug}>
-                    <Link to={`/product/${product.slug}`}>
-                      <img src={product.image} alt={product.name} />
-                    </Link>
-                    <div className='product-info'>
-                      {/* Link to the individual product page */}
-                      <Link to={`/product/${product.slug}`}>
-                        <p>{product.name}</p>
-                      </Link>
-                    </div>
+          {loading
+            ? [...Array(8)].map((_, i) => (
+                <Col key={i} sm={6} md={4} lg={3} className='mb-4'>
+                  <SkeletonGallery />
+                </Col>
+              ))
+            : products.map((product) => (
+                <Col
+                  key={product.slug}
+                  xs={6}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  className={`mb-4 ${
+                    window.innerWidth < 768
+                      ? 'd-flex justify-content-center'
+                      : ''
+                  }`}
+                >
+                  <div
+                    className='category-card'
+                    onClick={() => navigate(`/product/${product.slug}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className='category-card-img'
+                      style={{
+                        width: '100%',
+                        height: window.innerWidth < 768 ? '250px' : '400px',
+                        objectFit: 'cover',
+                        marginBottom: '10px',
+                        borderRadius: '10px',
+                      }}
+                      onError={(e) => (e.target.src = '/images/default.png')}
+                    />
+                    <div className='card-title'>{product.name}</div>
                   </div>
-                ))
-              )}
-            </div>
-          </Col>
+                </Col>
+              ))}
         </Row>
       </div>
     </>

@@ -680,3 +680,47 @@ index.css > updated colors
 Search.js > updated
 index.css > updated with categories for mobile view, Subscribe
 App.js > update with Sold Antiques, Collections
+
+# 21st Commit-Dynamic Carousel Jumbotron Admin HomeContentEdit, AboutUs-Image is now Dynamic, CSS for ProductCard from flex Row to small card Col, removed rating, Header, SearchBox, Cart, SoldGallery, MailChimp
+
+BACKEND
+folder: models
+aboutContentModel.js > updated for jumbotron image Dynamic
+homeContentModel.js > update to remove Typewriter effect and replace with image dynamically
+productModel.js > updated salePrice
+
+folder: routes
+aboutRoutes.js > updated for jumbotron image Dynamic
+homeContentRoutes.js > updated for dynamic Jumbotron image upload
+uploadRoutes.js > updated with delete category image
+productRoutes.js > updated salePrice
+
+server.js > updated
+
+FRONTEND
+folder: components
+Header.js > updated from soldAntiques to soldGallery, made logo bigger
+Footer.js > updated from soldAntiques to soldGallery
+Jumbotron.js > removed
+ProductCard.js > updated salePrice
+SearchBox.js > updated
+Sidebar.js > updated
+
+folder: pages
+AboutUs.js > updated for jumbotron image Dynamic
+AboutUsEdit.js > updated for jumbotron image Dynamic
+Cart.js > css updated for mobile
+Collections.js > updated for styling
+Home.js > updated with dynamic Jumbotron Carousel image upload, removed className='content'
+HomeContentEdit.js > updated with dynamic Jumbotron image upload
+soldGallery.js > updated from soldAntiques, updated to look like Collections
+Search.js > updated to map categories and the Sidebar included
+UserList.js > updated: removed Required to add userName to database manually from MailChimp
+ProductEdit.js > updated
+ProductMag.js > updated removed rating and review
+ProductList.js > updated
+
+index.css > updated, removed Jumbotron image, desktop: update card-img-top to 280px
+mobile: update Header .navbar-nav .nav-link
+
+App.js > updated from soldAntiques to soldGallery

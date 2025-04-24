@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
@@ -29,20 +29,20 @@ export default function CategoriesCard() {
   }, []);
 
   return (
-    <div className='categories-container'>
+    <div className='categories-container content'>
       <Row>
         {categories.map((category) => (
           <Col
             key={category.name}
-            xs={6} /* 2 per row on extra small screens */
-            sm={12} /* Full width on small screens */
-            md={6} /* 2 per row on medium screens */
-            lg={4} /* 3 per row on large screens */
+            xs={6}
+            sm={12}
+            md={6}
+            lg={4}
             className={`mb-4 ${
               window.innerWidth < 768 ? 'd-flex justify-content-center' : ''
             }`}
           >
-            <Card
+            <div
               className='category-card'
               onClick={() =>
                 navigate(
@@ -51,17 +51,20 @@ export default function CategoriesCard() {
               }
               style={{ cursor: 'pointer' }}
             >
-              <Card.Body>
-                <Card.Title className='text-center'>{category.name}</Card.Title>
-              </Card.Body>
-              <Card.Img
-                variant='top'
+              <img
                 src={category.image}
                 alt={category.name}
-                style={{ height: '400px', objectFit: 'cover' }}
+                style={{
+                  width: '100%',
+                  height: window.innerWidth < 768 ? '250px' : '400px',
+                  objectFit: 'cover',
+                  marginBottom: '10px',
+                  borderRadius: '10px',
+                }}
                 onError={(e) => (e.target.src = '/images/default.png')}
               />
-            </Card>
+              <div className='card-title'>{category.name}</div>
+            </div>
           </Col>
         ))}
       </Row>

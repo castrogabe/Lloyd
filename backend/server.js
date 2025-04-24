@@ -62,6 +62,17 @@ app.get('/list-uploads', (req, res) => {
   });
 });
 
+app.get('/debug-uploads', (req, res) => {
+  fs.readdir(uploadDir, (err, files) => {
+    if (err) {
+      return res
+        .status(500)
+        .send({ message: 'Cannot list files', error: err.message });
+    }
+    res.send({ files });
+  });
+});
+
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -104,10 +115,7 @@ app.use('/api/design', designRouter);
 app.use('/api/faqs', faqRouter);
 app.use('/api/productmagcontent', productMagContentRouter);
 app.use('/api/subscribe', subscribeRouter);
-
-// This must come before your React app routing
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadDir));
 
 // React app serving
 app.use(express.static(path.join(__dirname, '../frontend/build')));

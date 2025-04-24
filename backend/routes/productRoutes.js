@@ -41,8 +41,6 @@ productRouter.post(
       category: 'category',
       from: 'from',
       countInStock: 0,
-      rating: 0,
-      numReviews: 0,
       description: 'description',
       condition: 'condition',
       dimensions: 'dimensions',
@@ -70,6 +68,7 @@ productRouter.put(
       product.image = req.body.image || product.image;
       product.images = req.body.images || product.images;
       product.price = req.body.price || product.price;
+      product.salePrice = req.body.salePrice; // Add salePrice update
       product.category = req.body.category || product.category;
       product.categoryImage = req.body.categoryImage || product.categoryImage;
       product.from = req.body.from || product.from;
@@ -116,42 +115,6 @@ productRouter.delete(
   })
 );
 
-productRouter.post(
-  '/:id/reviews',
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (product) {
-      if (product.reviews.find((x) => x.name === req.user.name)) {
-        return res
-          .status(400)
-          .send({ message: 'You already submitted a review' });
-      }
-
-      const review = {
-        name: req.user.name,
-        rating: Number(req.body.rating),
-        comment: req.body.comment,
-      };
-      product.reviews.push(review);
-      product.numReviews = product.reviews.length;
-      product.rating =
-        product.reviews.reduce((a, c) => c.rating + a, 0) /
-        product.reviews.length;
-      const updatedProduct = await product.save();
-      res.status(201).send({
-        message: 'Review Created',
-        review: updatedProduct.reviews.at(-1),
-        numReviews: product.numReviews,
-        rating: product.rating,
-      });
-    } else {
-      res.status(404).send({ message: 'Product Not Found' });
-    }
-  })
-);
-
 const PAGE_SIZE = 12;
 
 productRouter.get(
@@ -183,7 +146,6 @@ productRouter.get(
       pageSize = PAGE_SIZE,
       category,
       price,
-      rating,
       order,
     } = req.query;
 
@@ -193,8 +155,7 @@ productRouter.get(
       ...(category &&
         category !== 'all' && {
           category: { $regex: `^${category}$`, $options: 'i' },
-        }), // ✅ Ensures proper category filtering
-      ...(rating && rating !== 'all' && { rating: { $gte: Number(rating) } }),
+        }), // Ensures proper category filtering
       ...(price &&
         price !== 'all' && {
           price: {
@@ -205,10 +166,8 @@ productRouter.get(
     };
 
     const sortOptions = {
-      featured: { featured: -1 },
       lowest: { price: 1 },
       highest: { price: -1 },
-      toprated: { rating: -1 },
       newest: { createdAt: -1 },
       default: { _id: -1 },
     };

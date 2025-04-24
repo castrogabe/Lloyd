@@ -53,21 +53,31 @@ const Footer = () => {
                   About Us
                 </Link>
               </li>
+
               <li>
                 <Link to='/collections' className='email'>
                   Collections
                 </Link>
               </li>
+
               <li>
-                <Link to='/soldAntiques' className='email'>
+                <Link to='/soldGallery' className='email1'>
                   Sold Antiques
                 </Link>
               </li>
+
               <li>
-                <Link to='/soldAntiques' className='email'>
-                  Sold Antiques
+                <Link to='/soldGallery' className='email1'>
+                  Sold Gallery
                 </Link>
               </li>
+
+              <li>
+                <Link to='/soldGallery' className='email1'>
+                  Gallery
+                </Link>
+              </li>
+
               <li>
                 <Link to='/design' className='email'>
                   Design Philosophy

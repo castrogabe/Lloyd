@@ -26,20 +26,15 @@ export default function SearchBox({ showSearch, setShowSearch }) {
           aria-label='Search Products'
           aria-describedby='button-search'
         />
-        {showSearch ? (
-          // <Button variant='outline-danger' onClick={() => setShowSearch(false)}>
-          //   <i className='fas fa-times'></i>
-          // </Button>
-          <Button variant='outline-primary' type='submit' id='button-search'>
-            <i className='fas fa-search'></i>
-          </Button>
-        ) : (
+        <Button variant='outline-primary' type='submit' id='button-search'>
+          <i className='fas fa-search'></i>
+        </Button>
+
+        {/* Show 'X' to close only in expanded mode */}
+        {showSearch && (
           <Button variant='outline-danger' onClick={() => setShowSearch(false)}>
             <i className='fas fa-times'></i>
           </Button>
-          // <Button variant='outline-primary' type='submit' id='button-search'>
-          //   <i className='fas fa-search'></i>
-          // </Button>
         )}
       </InputGroup>
     </Form>

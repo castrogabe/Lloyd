@@ -20,15 +20,9 @@ const BottomHeader = () => {
           <LinkContainer to='/contact'>
             <Nav.Link>Contact</Nav.Link>
           </LinkContainer>
-          {/* <LinkContainer to='/design'>
-            <Nav.Link>Design</Nav.Link>
-          </LinkContainer> */}
-          <LinkContainer to='/soldAntiques'>
-            <Nav.Link>Sold Antiques</Nav.Link>
+          <LinkContainer to='/soldGallery'>
+            <Nav.Link>Sold Gallery</Nav.Link>
           </LinkContainer>
-          {/* <LinkContainer to='/askedQuestions'>
-            <Nav.Link>FAQ</Nav.Link>
-          </LinkContainer> */}
         </Nav>
       </Container>
     </Navbar>

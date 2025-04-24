@@ -209,7 +209,25 @@ export default function ProductList() {
                     </td>
                     <td>{product.name}</td>
                     <td>{product.countInStock}</td>
-                    <td>{product.price}</td>
+                    <td>
+                      {product.salePrice ? (
+                        <>
+                          <span
+                            style={{
+                              textDecoration: 'line-through',
+                              color: 'gray',
+                            }}
+                          >
+                            ${product.price.toFixed(2)}
+                          </span>{' '}
+                          <span style={{ color: 'red', fontWeight: 'bold' }}>
+                            ${product.salePrice.toFixed(2)}
+                          </span>
+                        </>
+                      ) : (
+                        <>${product.price.toFixed(2)}</>
+                      )}
+                    </td>
                     <td style={{ textAlign: 'center' }}>
                       <div>{product.category}</div>
                       {product.categoryImage ? (

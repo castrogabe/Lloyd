@@ -22,12 +22,12 @@ const productSchema = new mongoose.Schema(
     category: { type: String, required: true },
     categoryImage: { type: String, required: false },
     description: { type: String, required: true },
-    price: { type: Number, required: true },
+    salePrice: {
+      type: Number,
+      default: null, // Set default to null for optional sale prices
+    },
     countInStock: { type: Number, required: true },
     charishLink: { type: String, required: false }, // URL to Charish listing
-    rating: { type: Number, required: true },
-    numReviews: { type: Number, required: true },
-    reviews: [reviewSchema],
     condition: { type: String, required: true },
     dimensions: { type: String, required: true },
     materials: { type: String, required: true },

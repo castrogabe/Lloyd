@@ -42,7 +42,7 @@ import Search from './pages/Search';
 import ShippingAddress from './pages/ShippingAddress'; // step 2
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import SoldAntiques from './pages/SoldAntiques';
+import SoldGallery from './pages/SoldGallery';
 
 // user protected pages
 import OrderDetails from './pages/OrderDetails';
@@ -73,7 +73,7 @@ function App() {
           <Route path='/shipping' element={<ShippingAddress />} />
           <Route path='/signin' element={<Signin />} />
           <Route path='/signup' element={<Signup />} />
-          <Route path='/soldAntiques' element={<SoldAntiques />} />
+          <Route path='/soldGallery' element={<SoldGallery />} />
           <Route path='/forget-password' element={<ForgetPassword />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />
           {/* Protected Routes */}

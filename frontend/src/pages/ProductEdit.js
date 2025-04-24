@@ -106,11 +106,13 @@ export default function ProductEdit() {
     e.preventDefault();
 
     if (!category) {
-      toast.error('Please select a category before updating.');
+      toast.error('Please select a category before updating.', {
+        autoClose: 1000, // Display success message for 1 second
+      });
       return;
     }
 
-    // ✅ Add this console.log before making the API request
+    // Add this console.log before making the API request
     console.log('Submitting Product Update:', {
       categoryImage, // Log categoryImage before sending request
       category,
@@ -151,7 +153,9 @@ export default function ProductEdit() {
       );
 
       dispatch({ type: 'UPDATE_SUCCESS' });
-      toast.success('Product updated successfully');
+      toast.success('Product updated successfully', {
+        autoClose: 1000, // Display success message for 1 second
+      });
       navigate('/admin/products');
     } catch (err) {
       toast.error(getError(err));
@@ -181,13 +185,13 @@ export default function ProductEdit() {
       dispatch({ type: 'UPLOAD_SUCCESS' });
 
       if (data.urls.length > 0) {
-        setImages((prev) => [...new Set([...prev, ...data.urls])]); // ✅ Prevent duplicates
-        if (!image) {
-          setImage(data.urls[0]); // ✅ Only set the main image if it doesn't exist
-        }
+        setImages([...data.urls]);
+        setImage(data.urls[0]); // ✅ always set main image
       }
 
-      toast.success('Images uploaded successfully');
+      toast.success('Images uploaded successfully', {
+        autoClose: 1000, // Display success message for 1 second
+      });
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
@@ -202,7 +206,9 @@ export default function ProductEdit() {
     } else if (updatedImages.length === 0) {
       setImage('');
     }
-    toast.success('Image removed successfully');
+    toast.success('Image removed successfully', {
+      autoClose: 1000, // Display success message for 1 second
+    });
   };
 
   const uploadCategoryImageHandler = async (e) => {
@@ -212,23 +218,23 @@ export default function ProductEdit() {
     }
 
     const file = e.target.files[0];
+
     const formData = new FormData();
     formData.append('image', file);
+    formData.append('categoryId', category); // ✅ important
 
     try {
-      const { data } = await axios.put(
-        `/api/products/category/${category}/image`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${userInfo.token}`, // ✅ Ensure token is included
-          },
-        }
-      );
+      const { data } = await axios.post('/api/upload/category', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      });
 
       setCategoryImage(data.image);
-      toast.success('Category image updated');
+      toast.success('Category image uploaded', {
+        autoClose: 1000, // Display success message for 1 second
+      });
     } catch (err) {
       toast.error(getError(err));
     }
@@ -236,9 +242,18 @@ export default function ProductEdit() {
 
   const deleteCategoryImageHandler = async () => {
     try {
-      await axios.put(`/api/products/category/${category}/remove-image`);
+      await axios.put(
+        `/api/upload/category/${category}/remove-image`,
+        {}, // empty payload
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+
       setCategoryImage('');
-      toast.success('Category image removed');
+      toast.success('Category image removed', {
+        autoClose: 1000, // Display success message for 1 second
+      });
     } catch (err) {
       toast.error('Error removing category image');
     }
