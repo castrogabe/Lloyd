@@ -599,3 +599,44 @@ config > updated with stripe keys
 FRONTEND
 folder: components
 Footer > update with phone number
+
+# 19th Commit-UserList, Chairish, PaymentMethod Icons, Backend to ES6
+
+BACKEND
+convert to ES6
+server.js > updated
+on Render Dashboard added a disk.
+🔧 Fixing the Upload Directory Permission Error on Render
+Check if the Persistent Disk is Set Up Correctly
+Go to Render Dashboard → Your Backend Service.
+Click on Disks (left-side menu).
+Check if a persistent disk is attached.
+If missing, add a new disk:
+Name: uploads
+Mount Path: /var/data/uploads
+Size: 1GB (or more)
+Click Save Changes.
+Redeploy your service.
+
+folder: models
+productModel.js > updated for CharishLink
+userModel.js > updated
+
+folder: routes
+productRoutes.js > updated fro CharishLink
+userRoutes.js > updated
+
+FRONTEND
+folder: components
+ProductCard.js > updated to display View on Charish
+
+FRONTEND
+folder: pages
+PlaceOrder.js > Modify h1 to display a Padlock and secure order method, tax modified to 9.5%
+PaymentMethod.js > Removed Stripe | added Visa, MasterCard, Amex, Discover icons
+ProductEdit.js > updated with all the Form.Groups
+ProductMag.js > updated with Chairish
+UserEdit.js > updated with phone number, Added Charish Form.Group checkbox
+UserList.js > updated with ability to upload manually users phone number and notes, updated to save the notes until admin deletes, updated with all the Form.Groups
+
+index.css > added styling for user notes

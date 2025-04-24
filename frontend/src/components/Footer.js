@@ -80,10 +80,7 @@ const Footer = () => {
                 <i className='fa fa-envelope'></i> Contact Us
               </Link>
               <li>
-                <a
-                  href='mailto:lindalloydantantiques@gmail.com'
-                  className='email'
-                >
+                <a href='mailto:sweetwatertc@yahoo.com' className='email'>
                   <i className='fa fa-envelope'></i> Email Me via gmail
                 </a>
               </li>
@@ -112,7 +109,7 @@ const Footer = () => {
             <ul className='list-unstyled'>
               <li>1276 N Yale Ave</li>
               <li>Claremont, CA. 91711</li>
-              <li>(626) 392-2979</li>
+              {/* <li>(626) 392-2979</li> */}
             </ul>
           </div>
         </Col>
