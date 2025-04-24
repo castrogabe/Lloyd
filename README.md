@@ -789,3 +789,5 @@ folder: pages
 Home.js > Add comments
 ProductMag.js > add comments
 Search.js > updated, commented out categories, prices for mobile view, add comments
+
+# 24th Commit-CSS hr line footer
