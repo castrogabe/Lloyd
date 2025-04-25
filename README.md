@@ -807,3 +807,9 @@ Home.js > updated with Commit 21 to see if it shows up???
 
 folder: pages
 Home.js > updated with Commit 22 to see if it shows up???
+
+deleted build from the root
+
+# 27 Commit-revert to 22nd commit to track error add build in root
+
+added build back in the root then push again, failed on render needed the build folder
