@@ -602,7 +602,7 @@ a.email:hover {
 }
 
 .hrLine {
-  border-color: var(--primary);
+  border-color: var(--medium);
 }
 
 /* Customer Notes */

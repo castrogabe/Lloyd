@@ -813,3 +813,5 @@ deleted build from the root
 # 27 Commit-revert to 22nd commit to track error add build in root
 
 added build back in the root then push again, failed on render needed the build folder
+
+# 28 Commit remove build modify server
