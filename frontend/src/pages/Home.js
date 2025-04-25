@@ -42,9 +42,9 @@ export default function Home() {
           <title>Linda Lloyd</title>
         </Helmet>
         <br />
-        <h1>Commit #21</h1>
+        <h1>Commit #22</h1>
         {homeContent && (
-          <div className='text-center'>
+          <div className='container'>
             <h2>{homeContent.title}</h2>
             <h4>
               {homeContent.h4Text.map((text, index) => (

@@ -800,3 +800,10 @@ Footer.js > updated with Square
 
 folder: pages
 Home.js > updated with Commit 21 to see if it shows up???
+
+# 26 Commit-revert to 22nd commit to track error
+
+21st commit works, now the 22nd commit
+
+folder: pages
+Home.js > updated with Commit 22 to see if it shows up???

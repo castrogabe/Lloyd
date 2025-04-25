@@ -122,14 +122,6 @@ const Footer = () => {
               {/* <li>(626) 392-2979</li> */}
             </ul>
           </div>
-          <br />
-          <div className='list-unstyled'>
-            <i
-              className='fas fa-lock'
-              style={{ color: 'green', marginRight: '5px' }}
-            ></i>
-            Checkout by Square
-          </div>
         </Col>
       </Row>
 
