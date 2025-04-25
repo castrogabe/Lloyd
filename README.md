@@ -817,3 +817,5 @@ added build back in the root then push again, failed on render needed the build 
 # 28 Commit remove build modify server
 
 # 29th Commit-revert to 24th commit with the updated server
+
+# 30th Commit-update PlaceOrder for Square only checkout on Render
