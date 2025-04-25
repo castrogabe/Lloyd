@@ -1,12 +1,12 @@
-const express = require('express');
-const asyncHandler = require('express-async-handler');
-const ProductMagContent = require('../models/productMagContentModel');
-const { isAuth, isAdmin } = require('../utils.js');
+import express from 'express';
+import asyncHandler from 'express-async-handler';
+import ProductMagContent from '../models/productMagContentModel.js';
+import { isAuth, isAdmin } from '../utils.js';
 
-const productMagRouter = express.Router();
+const router = express.Router();
 
 // Fetch productMag content
-productMagRouter.get(
+router.get(
   '/',
   asyncHandler(async (req, res) => {
     const content = await ProductMagContent.findOne({});
@@ -15,7 +15,7 @@ productMagRouter.get(
 );
 
 // Update productMag content
-productMagRouter.put(
+router.put(
   '/',
   isAuth,
   isAdmin,
@@ -30,4 +30,4 @@ productMagRouter.put(
   })
 );
 
-module.exports = productMagRouter;
+export default router;

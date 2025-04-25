@@ -1,12 +1,12 @@
-const express = require('express');
-const asyncHandler = require('express-async-handler');
-const FaqContent = require('../models/faqContentModel');
-const { isAuth, isAdmin } = require('../utils.js');
+import express from 'express';
+import asyncHandler from 'express-async-handler';
+import FaqContent from '../models/faqContentModel.js';
+import { isAuth, isAdmin } from '../utils.js';
 
-const faqRouter = express.Router();
+const router = express.Router();
 
 // Fetch FAQ content
-faqRouter.get(
+router.get(
   '/',
   asyncHandler(async (req, res) => {
     const content = await FaqContent.findOne({});
@@ -15,7 +15,7 @@ faqRouter.get(
 );
 
 // Update FAQ content
-faqRouter.put(
+router.put(
   '/',
   isAuth,
   isAdmin,
@@ -30,4 +30,4 @@ faqRouter.put(
   })
 );
 
-module.exports = faqRouter;
+export default router;

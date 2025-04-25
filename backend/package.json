@@ -1,5 +1,6 @@
 {
   "name": "backend",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,7 +24,8 @@
     "nodemailer": "^6.9.2",
     "sharp": "^0.29.3",
     "slugify": "^1.6.6",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "stripe": "^12.8.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

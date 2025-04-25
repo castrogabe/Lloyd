@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -15,8 +14,7 @@ function ProductCard({ product, handleSidebarOpen = () => {} }) {
   const {
     cart: { cartItems },
   } = state;
-
-  const [, setSidebarIsOpen] = useState(true);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
   const addToCartHandler = async (item) => {
     console.log('Opening Sidebar...'); // Debugging
@@ -66,7 +64,7 @@ function ProductCard({ product, handleSidebarOpen = () => {} }) {
   // ProductCard is coming from Search.js
 
   return (
-    <div className='category-card'>
+    <div className='home-card'>
       <Link to={`/product/${product.slug}`}>
         <LazyLoad height={200} offset={100}>
           <img
@@ -82,7 +80,8 @@ function ProductCard({ product, handleSidebarOpen = () => {} }) {
           to={`/product/${product.slug}`}
           style={{ textDecoration: 'none' }}
         >
-          <p>{product.name}</p>
+          <div className='card-title'>{product.name}</div>
+          <div className='card-title'>From: {product.from}</div>
         </Link>
 
         <div className='card-text'>
@@ -126,7 +125,8 @@ function ProductCard({ product, handleSidebarOpen = () => {} }) {
               </Col>
               <Col xs={4}>
                 <Button
-                  className='btn btn-outline-dark btn-sm mt-2'
+                  // className='btn btn-primary btn-sm'
+                  className='btn btn-outline-dark btn-sm'
                   onClick={() => addToCartHandler(product)}
                   disabled={product.quantity < 1}
                 >

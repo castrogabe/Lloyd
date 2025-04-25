@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const aboutContentSchema = new mongoose.Schema({
   jumbotronImage: {
@@ -20,5 +20,4 @@ const aboutContentSchema = new mongoose.Schema({
 });
 
 const AboutContent = mongoose.model('AboutContent', aboutContentSchema);
-
-module.exports = AboutContent;
+export default AboutContent;

@@ -42,8 +42,9 @@ export default function Home() {
           <title>Linda Lloyd</title>
         </Helmet>
         <br />
+        <h1>Commit #21</h1>
         {homeContent && (
-          <div className='container'>
+          <div className='text-center'>
             <h2>{homeContent.title}</h2>
             <h4>
               {homeContent.h4Text.map((text, index) => (
@@ -87,8 +88,3 @@ export default function Home() {
     </>
   );
 }
-
-// CategoriesCards  1 (Home)
-// Search.js (shows ProductsCards) <= CURRENT STEP (Add to Cart or ProductMag page)
-// Option 1: Add to Cart > Cart.js (opens Sidebar.js)
-// Option 2: Click main image > ProductMag.js > Add to Cart > Cart.js

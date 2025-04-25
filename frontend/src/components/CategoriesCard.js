@@ -45,10 +45,9 @@ export default function CategoriesCard() {
             <div
               className='category-card'
               onClick={() =>
-                navigate({
-                  pathname: '/search',
-                  search: `?category=${encodeURIComponent(category.name)}`,
-                })
+                navigate(
+                  `/search?category=${encodeURIComponent(category.name)}`
+                )
               }
               style={{ cursor: 'pointer' }}
             >

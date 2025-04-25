@@ -1,18 +1,16 @@
-const express = require('express');
-const expressAsyncHandler = require('express-async-handler');
-const Order = require('../models/orderModel.js');
-const User = require('../models/userModel.js');
-const Product = require('../models/productModel.js');
-
-const {
+import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import Order from '../models/orderModel.js';
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
+import {
   isAuth,
   isAdmin,
-  transporter,
-  sendAdminSMS,
   payOrderEmailTemplate,
   shipOrderEmailTemplate,
   sendShippingConfirmationEmail,
-} = require('../utils.js');
+  transporter,
+} from '../utils.js';
 
 const orderRouter = express.Router();
 
@@ -51,26 +49,10 @@ orderRouter.get(
   })
 );
 
-orderRouter.get(
-  '/test-sms',
-  expressAsyncHandler(async (req, res) => {
-    await sendAdminSMS({
-      subject: `${updatedOrder.orderName} - New Paid Order`,
-      message: `Total: $${updatedOrder.totalPrice.toFixed(2)}`,
-      customerName: updatedOrder.user.name,
-      orderName: updatedOrder.orderName,
-    });
-    res.send({ message: 'Test SMS sent' });
-  })
-);
-
 orderRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orderNameFromFirstItem =
-      req.body.orderItems?.[0]?.name || 'Unnamed Order';
-
     const newOrder = new Order({
       orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
       shippingAddress: req.body.shippingAddress,
@@ -80,16 +62,9 @@ orderRouter.post(
       taxPrice: req.body.taxPrice,
       totalPrice: req.body.totalPrice,
       user: req.user._id,
-      orderName: orderNameFromFirstItem,
     });
 
     const order = await newOrder.save();
-
-    const populatedOrder = await Order.findById(order._id).populate(
-      'user',
-      'name email'
-    );
-
     res.status(201).send({ message: 'New Order Created', order });
   })
 );
@@ -172,9 +147,10 @@ orderRouter.put(
       order.isPaid = true;
       order.paidAt = Date.now();
       order.paymentResult = {
-        id: req.body.id || 'square',
-        status: req.body.status || 'COMPLETED',
-        email_address: req.body.email_address || order.user.email,
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.email_address,
       };
 
       // Update count in stock for each item in the order
@@ -186,24 +162,15 @@ orderRouter.put(
         await product.save();
       }
 
-      console.log('🧾 Order Name:', order.orderName);
-
-      // Send SMS after payment is successful
-      await sendAdminSMS({
-        subject: `${updatedOrder.orderName} - New Paid Order`,
-        message: `Total: $${updatedOrder.totalPrice.toFixed(2)}`,
-        customerName: updatedOrder.user.name,
-        imageUrl: 'https://lindalloyd.onrender.com/images/logo.png',
-        orderName: updatedOrder.orderName,
-      });
-
       // Send email notification based on payment method
       const customerEmail = order.user.email;
       const purchaseDetails = payOrderEmailTemplate(order);
       const emailContent = {
         from: 'lindalloydantantiques@gmail.com',
         to: customerEmail,
-        subject: `Purchase Receipt from lindalloyd.com (via Square)`,
+        subject: `${
+          order.paymentMethod === 'PayPal' ? 'PayPal' : 'Stripe'
+        } Purchase Receipt from lindalloyd.com`,
         html: purchaseDetails,
       };
 
@@ -277,4 +244,4 @@ orderRouter.delete(
   })
 );
 
-module.exports = orderRouter;
+export default orderRouter;

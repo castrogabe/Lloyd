@@ -111,7 +111,7 @@ Add Bootstrap and all css
 2. git add .
 3. git commit -m "First Commit"
 4. git branch -M master
-5. git remote add origin https://github.com/(yourname)/lindalloyd.git
+5. git remote add origin https://github.com/castrogabe/Lloyd.git
 6. git push -u origin master
 
 # 2nd Commit add static images data.js and for second commit
@@ -791,3 +791,12 @@ ProductMag.js > add comments
 Search.js > updated, commented out categories, prices for mobile view, add comments
 
 # 24th Commit-CSS hr line footer
+
+# 25 Commit-revert to 21st commit to track error
+
+FRONTEND
+folder: components
+Footer.js > updated with Square
+
+folder: pages
+Home.js > updated with Commit 21 to see if it shows up???

@@ -8,38 +8,37 @@ const AdminPagination = ({
   isAdmin = true,
   keyword = '',
 }) => {
-  const getPathAndSearch = (x) => {
-    const pageSearch = `?page=${x + 1}`;
-
-    if (isAdmin && keyword === '')
-      return { pathname: '/admin/products', search: pageSearch };
-    if (!isAdmin && keyword === '')
-      return { pathname: '/products', search: pageSearch };
-    if (isAdmin && keyword === 'OrderList')
-      return { pathname: '/admin/orders', search: pageSearch };
-    if (!isAdmin && keyword === 'OrderList')
-      return { pathname: '/orders', search: pageSearch };
-    if (isAdmin && keyword === 'UserList')
-      return { pathname: '/admin/users', search: pageSearch };
-    if (!isAdmin && keyword === 'UserList')
-      return { pathname: '/users', search: pageSearch };
-    if (isAdmin && keyword === 'Messages')
-      return { pathname: '/admin/messages', search: pageSearch };
-    if (!isAdmin && keyword === 'Messages')
-      return { pathname: '/messages', search: pageSearch };
-
-    return { pathname: '/' };
-  };
-
   return (
     <div>
       {[...Array(totalPages).keys()].map((x) => (
-        <LinkContainer key={x + 1} className='mx-1' to={getPathAndSearch(x)}>
+        <LinkContainer
+          key={x + 1}
+          className='mx-1'
+          to={
+            isAdmin && keyword === ''
+              ? `/admin/products?page=${x + 1}`
+              : !isAdmin && keyword === ''
+              ? `/products?page=${x + 1}`
+              : isAdmin && keyword === 'OrderList'
+              ? `/admin/orders?page=${x + 1}`
+              : !isAdmin && keyword === 'OrderList'
+              ? `/orders?page=${x + 1}`
+              : isAdmin && keyword === 'UserList'
+              ? `/admin/users?page=${x + 1}`
+              : !isAdmin && keyword === 'UserList'
+              ? `/users?page=${x + 1}`
+              : isAdmin && keyword === 'Messages'
+              ? `/admin/messages?page=${x + 1}`
+              : !isAdmin && keyword === 'Messages'
+              ? `/messages?page=${x + 1}`
+              : '/'
+          }
+        >
           <Button
             className={currentPage === x + 1 ? 'text-bold' : ''}
-            variant='light'
+            variant='light' // Set button variant to light
           >
-            {x + 1}
+            {x + 1} {/* Display page number on the button */}
           </Button>
         </LinkContainer>
       ))}

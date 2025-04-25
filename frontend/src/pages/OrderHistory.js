@@ -5,8 +5,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
-import { Button, Table, Row, Col } from 'react-bootstrap/esm';
-import SkeletonOrderHistory from '../components/skeletons/SkeletonOrderHistory';
+import { Button, Table, Row, Col } from 'react-bootstrap/esm'; // lesson 12
+import SkeletonOrderHistory from '../components/skeletons/SkeletonOrderHistory'; // lesson 12
 
 const reducer = (state, action) => {
   switch (action.type) {

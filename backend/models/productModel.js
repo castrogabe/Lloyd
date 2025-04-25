@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+import mongoose from 'mongoose';
+import slugify from 'slugify';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema(
     period: { type: String, required: true },
     maker: { type: String, required: true },
     provenance: { type: Boolean, required: false },
-    sold: { type: Number, default: 0 },
+    sold: { type: Boolean, default: false },
   },
   {
     timestamps: true,
@@ -50,4 +50,5 @@ productSchema.pre('save', function (next) {
 });
 
 const Product = mongoose.model('Product', productSchema);
-module.exports = Product;
+
+export default Product;

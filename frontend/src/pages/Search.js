@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
@@ -41,18 +41,18 @@ const prices = [
 export default function Search() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const category = queryParams.get('category') || '';
   const query = queryParams.get('query') || 'all';
   const price = queryParams.get('price') || 'all';
+  const rating = queryParams.get('rating') || 'all';
   const order = queryParams.get('order') || 'newest';
   const page = queryParams.get('page') || 1;
 
-  const [{ loading, error, products, pages }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, products, pages, countProducts }, dispatch] =
+    useReducer(reducer, { loading: true, error: '' });
 
   const [categories, setCategories] = useState([]);
 
@@ -77,29 +77,25 @@ export default function Search() {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { data } = await axios.get(
-          `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&order=${order}`
+          `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
         );
-
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
     fetchData();
-  }, [category, order, page, price, query]);
+  }, [category, order, page, price, query, rating]);
 
   const getFilterUrl = (filter) => {
-    const filterPage = filter.page || page;
-    const filterCategory = filter.category || category;
-    const filterQuery = filter.query || query;
-    const filterPrice = filter.price || price;
-    const sortOrder = filter.order || order;
-
-    return {
-      pathname: '/search',
-      search: `?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&order=${sortOrder}&page=${filterPage}`,
-    };
+    return `/search?category=${filter.category || category}&query=${
+      filter.query || query
+    }&price=${filter.price || price}&rating=${filter.rating || rating}&order=${
+      filter.order || order
+    }&page=${filter.page || page}`;
   };
+
+  // Open Sidebar for desktop, show toast for mobile
   const handleSidebarOpen = () => {
     if (!isMobile) {
       setIsSidebarOpen(true);
@@ -114,53 +110,51 @@ export default function Search() {
       </Helmet>
 
       <Row className='mt-3'>
-        {!isMobile && (
-          <Col md={3} className='search'>
-            <div>
-              <h3>Categories</h3>
-              <ul>
-                <li key='any'>
-                  <Link
-                    className={category === 'all' ? 'text-bold' : ''}
-                    to={getFilterUrl({ category: 'all' })}
-                  >
-                    Any
-                  </Link>
-                </li>
-                {categories.length > 0 ? (
-                  categories.map((c, index) => (
-                    <li key={c._id || index}>
-                      <Link
-                        className={c._id === category ? 'text-bold' : ''}
-                        to={getFilterUrl({ category: c._id })}
-                      >
-                        {c._id}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <li>Loading categories...</li>
-                )}
-              </ul>
-            </div>
-
-            <div>
-              <h3>Price</h3>
-              <ul>
-                {prices.map((p) => (
-                  <li key={`price-${p.value}`}>
+        <Col md={3} className='search'>
+          <div>
+            <h3>Categories</h3>
+            <ul>
+              <li key='any'>
+                <Link
+                  className={category === 'all' ? 'text-bold' : ''}
+                  to={getFilterUrl({ category: 'all' })}
+                >
+                  Any
+                </Link>
+              </li>
+              {categories.length > 0 ? (
+                categories.map((c, index) => (
+                  <li key={c._id || index}>
                     <Link
-                      to={getFilterUrl({ price: p.value })}
-                      className={p.value === price ? 'text-bold' : ''}
+                      className={c._id === category ? 'text-bold' : ''}
+                      to={getFilterUrl({ category: c._id })}
                     >
-                      {p.name}
+                      {c._id}
                     </Link>
                   </li>
-                ))}
-              </ul>
-            </div>
-          </Col>
-        )}
+                ))
+              ) : (
+                <li>Loading categories...</li>
+              )}
+            </ul>
+          </div>
+
+          <div>
+            <h3>Price</h3>
+            <ul>
+              {prices.map((p) => (
+                <li key={`price-${p.value}`}>
+                  <Link
+                    to={getFilterUrl({ price: p.value })}
+                    className={p.value === price ? 'text-bold' : ''}
+                  >
+                    {p.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Col>
 
         <Col md={9}>
           {loading ? (
@@ -169,31 +163,27 @@ export default function Search() {
             <MessageBox variant='danger'>{error}</MessageBox>
           ) : (
             <>
-              <Row>
+              <Row className='d-flex align-items-stretch'>
                 {products.map((product) => (
                   <Col
-                    key={product._id}
-                    xs={6}
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    className={`mb-4 ${
-                      window.innerWidth < 768
-                        ? 'd-flex justify-content-center'
-                        : ''
-                    }`}
+                    key={product.slug}
+                    xs={6} /* 2 per row on extra small screens */
+                    sm={12} /* Full width on small screens */
+                    md={6} /* 2 per row on medium screens */
+                    lg={4} /* 3 per row on large screens */
+                    className='mb-4 d-flex'
                   >
-                    <ProductCard
-                      product={product}
-                      handleSidebarOpen={handleSidebarOpen}
-                    />
+                    <ProductCard product={product} />
                   </Col>
                 ))}
               </Row>
 
+              {/* Render Sidebar if not mobile */}
               {!isMobile && isSidebarOpen && (
                 <Sidebar handleSidebarOpen={setIsSidebarOpen} />
               )}
+
+              {/* Pagination Component */}
 
               <div className='pagination-container'>
                 <Pagination
@@ -209,8 +199,3 @@ export default function Search() {
     </div>
   );
 }
-
-// CategoriesCards  1 (Home)
-// Search.js (shows ProductsCards) (Add to Cart or ProductMag page) <= CURRENT STEP
-// Option 1: Click main image > ProductMag.js > Add to Cart > Cart.js
-// Option 2: Add to Cart > Cart.js (opens Sidebar.js)

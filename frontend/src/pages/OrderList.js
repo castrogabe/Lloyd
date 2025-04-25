@@ -205,9 +205,7 @@ export default function OrderList() {
                           className='img-fluid rounded img-thumbnail'
                         />
                         <br />
-                        <Link className='link' to={`/product/${item.slug}`}>
-                          {item.name}
-                        </Link>
+                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </div>
                     ))}
                   </td>
