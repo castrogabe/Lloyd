@@ -18,7 +18,7 @@ const baseUrl = () =>
     ? process.env.BASE_URL
     : process.env.NODE_ENV !== 'production'
     ? 'http://localhost:3000'
-    : 'https://lindalloyd.onrender.com';
+    : 'https://lloyd-tme8.onrender.com';
 
 const generateToken = (user) => {
   return jwt.sign(
