@@ -821,3 +821,14 @@ added build back in the root then push again, failed on render needed the build 
 # 30th Commit-update PlaceOrder for Square only checkout on Render
 
 # 33rd Commit-update utils.js and PlaceOrder
+
+# 34th Commit-Add Instructions for uploading products or adding Chairish
+
+FRONTEND
+folder: components
+Header.js > added Instructions.js
+
+folder: pages
+Instructions.js > added
+
+App.js > added Instructions.js
