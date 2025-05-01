@@ -832,3 +832,5 @@ folder: pages
 Instructions.js > added
 
 App.js > added Instructions.js
+
+# 35th Commit-fix productModel, price field added.
