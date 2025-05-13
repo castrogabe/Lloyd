@@ -331,6 +331,7 @@ export default function ProductEdit() {
               onChange={(e) => setSalePrice(e.target.value)}
             />
           </Form.Group>
+
           <Form.Group className='mb-3' controlId='imageUpload'>
             <Form.Label>Upload Product Images</Form.Label>
             <Form.Control

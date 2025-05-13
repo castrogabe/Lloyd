@@ -834,3 +834,16 @@ Instructions.js > added
 App.js > added Instructions.js
 
 # 35th Commit-fix productModel, price field added.
+
+# 36th Commit-fix
+
+BACKEND
+folder: routes
+orderRoutes.js > updated
+
+utils.js > updated
+.env > updated with BASE_URL=https://lloyd-tme8.onrender.com | app password updated
+
+# ========================
+
+updated render .env
