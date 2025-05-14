@@ -835,7 +835,7 @@ App.js > added Instructions.js
 
 # 35th Commit-fix productModel, price field added.
 
-# 36th Commit-fix
+# 36th Commit-fix backend image upload emails
 
 BACKEND
 folder: routes
@@ -847,3 +847,9 @@ utils.js > updated
 # ========================
 
 updated render .env
+
+# 37th Commit-New Category option
+
+FRONTEND
+folder: pages
+ProductEdit.js > updated with new category option
