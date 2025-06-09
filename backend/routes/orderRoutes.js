@@ -64,6 +64,30 @@ orderRouter.get(
   })
 );
 
+orderRouter.get(
+  '/sold',
+  expressAsyncHandler(async (req, res) => {
+    const orders = await Order.find({ isPaid: true }).populate('user', 'name');
+    const soldProducts = [];
+
+    orders.forEach((order) => {
+      order.orderItems.forEach((item) => {
+        soldProducts.push({
+          _id: item._id,
+          name: item.name,
+          image: item.image,
+          slug: item.slug,
+          user: order.user?.name || 'Unknown',
+          orderId: order._id,
+          soldDate: order.paidAt,
+        });
+      });
+    });
+
+    res.json(soldProducts);
+  })
+);
+
 orderRouter.post(
   '/',
   isAuth,

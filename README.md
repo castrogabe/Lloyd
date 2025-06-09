@@ -853,3 +853,18 @@ updated render .env
 FRONTEND
 folder: pages
 ProductEdit.js > updated with new category option
+
+# 38th Commit-Fix Sold Gallery, add Spectrum to Admin text list
+
+BACKEND
+folder: routes
+orderRoutes.js > updated with sold
+subscribeRoutes.js > updated
+
+FRONTEND
+folder: components
+ProductCard.js > updated
+Subscribe.js > updated, adds email to MailChimp
+ProductMag.js > updated for shipping times
+
+index.css > updated
