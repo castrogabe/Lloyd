@@ -23,3 +23,5 @@ const illinoisCountyTaxRates = {
 };
 
 module.exports = illinoisCountyTaxRates;
+
+// change to lowercase
